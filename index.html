@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Periodic Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .periodic-table {
+      display: grid;
+      grid-template-columns: repeat(18, 60px);
+      gap: 10px;
+      justify-content: center;
+    }
+    .element {
+      width: 60px;
+      height: 75px;
+      background: #ffffff;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 4px;
+      text-align: center;
+      font-size: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .symbol {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .number {
+      font-size: 10px;
+    }
+    .name {
+      font-size: 9px;
+    }
+
+    /* Category Colors */
+    .alkali { background-color: #ffcccc; }
+    .alkaline { background-color: #ffddcc; }
+    .transition { background-color: #cce5ff; }
+    .post-transition { background-color: #d9f2d9; }
+    .metalloid { background-color: #e6e6ff; }
+    .nonmetal { background-color: #ffffcc; }
+    .halogen { background-color: #fff0b3; }
+    .noble { background-color: #ffd9b3; }
+    .lanthanide { background-color: #ccf2ff; }
+    .actinide { background-color: #e0ccff; }
+  </style>
+</head>
+<body>
+  <h1>Periodic Table</h1>
+  <div class="periodic-table" id="periodic-table"></div>
+
+  <script>
+    const elements = [
+  { num: 1, sym: "H", name: "Hydrogen", group: "nonmetal", col: 1, row: 1 },
+  { num: 2, sym: "He", name: "Helium", group: "noble", col: 18, row: 1 },
+  { num: 3, sym: "Li", name: "Lithium", group: "alkali", col: 1, row: 2 },
+  { num: 4, sym: "Be", name: "Beryllium", group: "alkaline", col: 2, row: 2 },
+  { num: 5, sym: "B", name: "Boron", group: "metalloid", col: 13, row: 2 },
+  { num: 6, sym: "C", name: "Carbon", group: "nonmetal", col: 14, row: 2 },
+  { num: 7, sym: "N", name: "Nitrogen", group: "nonmetal", col: 15, row: 2 },
+  { num: 8, sym: "O", name: "Oxygen", group: "nonmetal", col: 16, row: 2 },
+  { num: 9, sym: "F", name: "Fluorine", group: "halogen", col: 17, row: 2 },
+  { num: 10, sym: "Ne", name: "Neon", group: "noble", col: 18, row: 2 },
+  { num: 11, sym: "Na", name: "Sodium", group: "alkali", col: 1, row: 3 },
+  { num: 12, sym: "Mg", name: "Magnesium", group: "alkaline", col: 2, row: 3 },
+  { num: 13, sym: "Al", name: "Aluminium", group: "post-transition", col: 13, row: 3 },
+  { num: 14, sym: "Si", name: "Silicon", group: "metalloid", col: 14, row: 3 },
+  { num: 15, sym: "P", name: "Phosphorus", group: "nonmetal", col: 15, row: 3 },
+  { num: 16, sym: "S", name: "Sulfur", group: "nonmetal", col: 16, row: 3 },
+  { num: 17, sym: "Cl", name: "Chlorine", group: "halogen", col: 17, row: 3 },
+  { num: 18, sym: "Ar", name: "Argon", group: "noble", col: 18, row: 3 },
+  { num: 19, sym: "K", name: "Potassium", group: "alkali", col: 1, row: 4 },
+  { num: 20, sym: "Ca", name: "Calcium", group: "alkaline", col: 2, row: 4 },
+  { num: 21, sym: "Sc", name: "Scandium", group: "transition", col: 3, row: 4 },
+  { num: 22, sym: "Ti", name: "Titanium", group: "transition", col: 4, row: 4 },
+  { num: 23, sym: "V", name: "Vanadium", group: "transition", col: 5, row: 4 },
+  { num: 24, sym: "Cr", name: "Chromium", group: "transition", col: 6, row: 4 },
+  { num: 25, sym: "Mn", name: "Manganese", group: "transition", col: 7, row: 4 },
+  { num: 26, sym: "Fe", name: "Iron", group: "transition", col: 8, row: 4 },
+  { num: 27, sym: "Co", name: "Cobalt", group: "transition", col: 9, row: 4 },
+  { num: 28, sym: "Ni", name: "Nickel", group: "transition", col: 10, row: 4 },
+  { num: 29, sym: "Cu", name: "Copper", group: "transition", col: 11, row: 4 },
+  { num: 30, sym: "Zn", name: "Zinc", group: "transition", col: 12, row: 4 },
+  { num: 31, sym: "Ga", name: "Gallium", group: "post-transition", col: 13, row: 4 },
+  { num: 32, sym: "Ge", name: "Germanium", group: "metalloid", col: 14, row: 4 },
+  { num: 33, sym: "As", name: "Arsenic", group: "metalloid", col: 15, row: 4 },
+  { num: 34, sym: "Se", name: "Selenium", group: "nonmetal", col: 16, row: 4 },
+  { num: 35, sym: "Br", name: "Bromine", group: "halogen", col: 17, row: 4 },
+  { num: 36, sym: "Kr", name: "Krypton", group: "noble", col: 18, row: 4 },
+  { num: 37, sym: "Rb", name: "Rubidium", group: "alkali", col: 1, row: 5 },
+{ num: 38, sym: "Sr", name: "Strontium", group: "alkaline", col: 2, row: 5 },
+{ num: 39, sym: "Y", name: "Yttrium", group: "transition", col: 3, row: 5 },
+{ num: 40, sym: "Zr", name: "Zirconium", group: "transition", col: 4, row: 5 },
+{ num: 41, sym: "Nb", name: "Niobium", group: "transition", col: 5, row: 5 },
+{ num: 42, sym: "Mo", name: "Molybdenum", group: "transition", col: 6, row: 5 },
+{ num: 43, sym: "Tc", name: "Technetium", group: "transition", col: 7, row: 5 },
+{ num: 44, sym: "Ru", name: "Ruthenium", group: "transition", col: 8, row: 5 },
+{ num: 45, sym: "Rh", name: "Rhodium", group: "transition", col: 9, row: 5 },
+{ num: 46, sym: "Pd", name: "Palladium", group: "transition", col: 10, row: 5 },
+{ num: 47, sym: "Ag", name: "Silver", group: "transition", col: 11, row: 5 },
+{ num: 48, sym: "Cd", name: "Cadmium", group: "transition", col: 12, row: 5 },
+{ num: 49, sym: "In", name: "Indium", group: "post-transition", col: 13, row: 5 },
+{ num: 50, sym: "Sn", name: "Tin", group: "post-transition", col: 14, row: 5 },
+{ num: 51, sym: "Sb", name: "Antimony", group: "metalloid", col: 15, row: 5 },
+{ num: 52, sym: "Te", name: "Tellurium", group: "metalloid", col: 16, row: 5 },
+{ num: 53, sym: "I", name: "Iodine", group: "halogen", col: 17, row: 5 },
+{ num: 54, sym: "Xe", name: "Xenon", group: "noble", col: 18, row: 5 },
+{ num: 55, sym: "Cs", name: "Cesium", group: "alkali", col: 1, row: 6 },
+{ num: 56, sym: "Ba", name: "Barium", group: "alkaline", col: 2, row: 6 },
+{ num: 57, sym: "La", name: "Lanthanum", group: "lanthanide", col: 3, row: 9 },
+{ num: 58, sym: "Ce", name: "Cerium", group: "lanthanide", col: 4, row: 9 },
+{ num: 59, sym: "Pr", name: "Praseodymium", group: "lanthanide", col: 5, row: 9 },
+{ num: 60, sym: "Nd", name: "Neodymium", group: "lanthanide", col: 6, row: 9 },
+{ num: 61, sym: "Pm", name: "Promethium", group: "lanthanide", col: 7, row: 9 },
+{ num: 62, sym: "Sm", name: "Samarium", group: "lanthanide", col: 8, row: 9 },
+{ num: 63, sym: "Eu", name: "Europium", group: "lanthanide", col: 9, row: 9 },
+{ num: 64, sym: "Gd", name: "Gadolinium", group: "lanthanide", col: 10, row: 9 },
+{ num: 65, sym: "Tb", name: "Terbium", group: "lanthanide", col: 11, row: 9 },
+{ num: 66, sym: "Dy", name: "Dysprosium", group: "lanthanide", col: 12, row: 9 },
+{ num: 67, sym: "Ho", name: "Holmium", group: "lanthanide", col: 13, row: 9 },
+{ num: 68, sym: "Er", name: "Erbium", group: "lanthanide", col: 14, row: 9 },
+{ num: 69, sym: "Tm", name: "Thulium", group: "lanthanide", col: 15, row: 9 },
+{ num: 70, sym: "Yb", name: "Ytterbium", group: "lanthanide", col: 16, row: 9 },
+{ num: 71, sym: "Lu", name: "Lutetium", group: "lanthanide", col: 17, row: 9 },
+{ num: 72, sym: "Hf", name: "Hafnium", group: "transition", col: 4, row: 6 },
+{ num: 73, sym: "Ta", name: "Tantalum", group: "transition", col: 5, row: 6 },
+{ num: 74, sym: "W", name: "Tungsten", group: "transition", col: 6, row: 6 },
+{ num: 75, sym: "Re", name: "Rhenium", group: "transition", col: 7, row: 6 },
+{ num: 76, sym: "Os", name: "Osmium", group: "transition", col: 8, row: 6 },
+{ num: 77, sym: "Ir", name: "Iridium", group: "transition", col: 9, row: 6 },
+{ num: 78, sym: "Pt", name: "Platinum", group: "transition", col: 10, row: 6 },
+{ num: 79, sym: "Au", name: "Gold", group: "transition", col: 11, row: 6 },
+{ num: 80, sym: "Hg", name: "Mercury", group: "transition", col: 12, row: 6 },
+{ num: 81, sym: "Tl", name: "Thallium", group: "post-transition", col: 13, row: 6 },
+{ num: 82, sym: "Pb", name: "Lead", group: "post-transition", col: 14, row: 6 },
+{ num: 83, sym: "Bi", name: "Bismuth", group: "post-transition", col: 15, row: 6 },
+{ num: 84, sym: "Po", name: "Polonium", group: "metalloid", col: 16, row: 6 },
+{ num: 85, sym: "At", name: "Astatine", group: "halogen", col: 17, row: 6 },
+{ num: 86, sym: "Rn", name: "Radon", group: "noble", col: 18, row: 6 },
+{ num: 87, sym: "Fr", name: "Francium", group: "alkali", col: 1, row: 7 },
+{ num: 88, sym: "Ra", name: "Radium", group: "alkaline", col: 2, row: 7 },
+{ num: 89, sym: "Ac", name: "Actinium", group: "actinide", col: 3, row: 10 },
+{ num: 90, sym: "Th", name: "Thorium", group: "actinide", col: 4, row: 10 },
+{ num: 91, sym: "Pa", name: "Protactinium", group: "actinide", col: 5, row: 10 },
+{ num: 92, sym: "U", name: "Uranium", group: "actinide", col: 6, row: 10 },
+{ num: 93, sym: "Np", name: "Neptunium", group: "actinide", col: 7, row: 10 },
+{ num: 94, sym: "Pu", name: "Plutonium", group: "actinide", col: 8, row: 10 },
+{ num: 95, sym: "Am", name: "Americium", group: "actinide", col: 9, row: 10 },
+{ num: 96, sym: "Cm", name: "Curium", group: "actinide", col: 10, row: 10 },
+{ num: 97, sym: "Bk", name: "Berkelium", group: "actinide", col: 11, row: 10 },
+{ num: 98, sym: "Cf", name: "Californium", group: "actinide", col: 12, row: 10 },
+{ num: 99, sym: "Es", name: "Einsteinium", group: "actinide", col: 13, row: 10 },
+{ num: 100, sym: "Fm", name: "Fermium", group: "actinide", col: 14, row: 10 },
+{ num: 101, sym: "Md", name: "Mendelevium", group: "actinide", col: 15, row: 10 },
+{ num: 102, sym: "No", name: "Nobelium", group: "actinide", col: 16, row: 10 },
+{ num: 103, sym: "Lr", name: "Lawrencium", group: "actinide", col: 17, row: 10 },
+{ num: 104, sym: "Rf", name: "Rutherfordium", group: "transition", col: 4, row: 7 },
+{ num: 105, sym: "Db", name: "Dubnium", group: "transition", col: 5, row: 7 },
+{ num: 106, sym: "Sg", name: "Seaborgium", group: "transition", col: 6, row: 7 },
+{ num: 107, sym: "Bh", name: "Bohrium", group: "transition", col: 7, row: 7 },
+{ num: 108, sym: "Hs", name: "Hassium", group: "transition", col: 8, row: 7 },
+{ num: 109, sym: "Mt", name: "Meitnerium", group: "unknown", col: 9, row: 7 },
+{ num: 110, sym: "Ds", name: "Darmstadtium", group: "unknown", col: 10, row: 7 },
+{ num: 111, sym: "Rg", name: "Roentgenium", group: "unknown", col: 11, row: 7 },
+{ num: 112, sym: "Cn", name: "Copernicium", group: "transition", col: 12, row: 7 },
+{ num: 113, sym: "Nh", name: "Nihonium", group: "post-transition", col: 13, row: 7 },
+{ num: 114, sym: "Fl", name: "Flerovium", group: "post-transition", col: 14, row: 7 },
+{ num: 115, sym: "Mc", name: "Moscovium", group: "post-transition", col: 15, row: 7 },
+{ num: 116, sym: "Lv", name: "Livermorium", group: "post-transition", col: 16, row: 7 },
+{ num: 117, sym: "Ts", name: "Tennessine", group: "halogen", col: 17, row: 7 },
+{ num: 118, sym: "Og", name: "Oganesson", group: "noble", col: 18, row: 7 }
+
+    ];
+
+    const table = document.getElementById("periodic-table");
+
+    elements.forEach(e => {
+      const el = document.createElement("div");
+      el.className = `element ${e.group}`;
+      el.style.gridColumn = e.col;
+      el.style.gridRow = e.row;
+      el.innerHTML = `
+        <div class="number">${e.num}</div>
+        <div class="symbol">${e.sym}</div>
+        <div class="name">${e.name}</div>
+      `;
+      table.appendChild(el);
+    });
+  </script>
+</body>
+</html>
